@@ -45,7 +45,7 @@ function LatestMeasurement() {
     ];
 
     return (
-        <div className="flex flex-col bg-gray-200 p-5 rounded-xl shadow-md mb-10">
+        <div className="flex flex-col bg-gray-200 sm:p-5 p-2 rounded-xl shadow-md mb-10">
             <h2 className="sm:text-md text-sm text-center sm:text-left mb-3 font-semibold text-gray-700">
                 Dados da última medição, realizada em {new Date(m.timestamp).toLocaleString("pt-BR")}
             </h2>

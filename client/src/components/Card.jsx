@@ -31,7 +31,13 @@ function Card({ type, title, value, unit, loading }) {
                         {icons[type]}
                     </div>
                 </div>
-                <div className="text-2xl font-semibold mb-1">{value}</div>
+                {
+                    type === "timestamp" ? (
+                        <div className="text-xl font-semibold mb-1">{value}</div>
+                    ) : (
+                        <div className="text-2xl font-semibold mb-1">{value}</div>
+                    )
+                }
                 {unit && <div className="text-gray-500 text-sm">{unit}</div>}
             </div>
         );

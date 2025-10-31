@@ -76,7 +76,7 @@ export default function MeasurementsChart({ loading: externalLoading = false }) 
         <div className="flex flex-col bg-gray-200 p-5 rounded-xl shadow-md">
             <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
                 <h2 className="text-md font-semibold text-gray-700 mb-2 sm:mb-0">
-                    Evolução de {labels[selectedType]} ao longo do tempo
+                    {labels[selectedType]} ao longo do tempo
                 </h2>
 
                 <select

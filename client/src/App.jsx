@@ -7,7 +7,7 @@ function App() {
   return (
     <>
     <Header />
-    <main className="w-full mx-auto px-10">
+    <main className="w-full mx-auto sm:px-10 px-2">
       <LatestMeasurement />
       <MeasurementsChart />
     </main>
