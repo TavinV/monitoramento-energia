@@ -6,7 +6,7 @@ const descriptions = {
     voltage: "Tensão elétrica medida pelo ESP32 (Volts).",
     current: "Corrente elétrica medida pelo ESP32 (Ampères).",
     power: "Potência instantânea da máquina (Watts).",
-    energy: "Energia consumida no período (kWh).",
+    energy: "Energia consumida desde a ultima medição (kWh).",
     cost: "Custo estimado do consumo desde a ultima medição (Reais).",
     timestamp: "Data e hora da última medição."
 };
