@@ -37,7 +37,7 @@ Para evitar inserção de dados não autorizados:
 - O middleware `validateApiKey.js` verifica a validade do token antes de permitir o registro da medição.
 - Todas as requisições externas devem incluir o cabeçalho:
   ```
-  Authorization: Bearer <API_KEY>
+  x-api-key: <API_KEY>
   ```
 
 ---
