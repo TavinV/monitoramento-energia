@@ -15,6 +15,11 @@ O objetivo do projeto é fornecer uma interface simples, responsiva e intuitiva 
 
 ---
 
+---
+
+🔗 [https://monitoramento-energia.vercel.app](Link do site hospedado)
+
+
 ## ⚙️ Detalhes Técnicos
 
 ### Arquitetura e Comunicação
