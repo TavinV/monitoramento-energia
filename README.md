@@ -99,7 +99,7 @@ npm run dev
 
 ### Base URL
 ```
-http://localhost:5000/api/measurements
+http://localhost:3000/api/measurements
 ```
 
 ---
