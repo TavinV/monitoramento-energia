@@ -35,9 +35,11 @@ const labels = {
 };
 
 export default function MeasurementsChart({ loading: externalLoading = false }) {
-    const { measurements, loading: internalLoading, error } = useMeasurements(false);
     const [selectedType, setSelectedType] = useState("power");
+    const [period, setPeriod] = useState("all");
+    const [limit, setLimit] = useState(null);
 
+    const { measurements, loading: internalLoading, error } = useMeasurements({ period, limit });
     const loading = externalLoading || internalLoading;
 
     // === Skeleton de carregamento ===
@@ -48,7 +50,6 @@ export default function MeasurementsChart({ loading: externalLoading = false }) 
                     <div className="h-5 bg-gray-300 rounded w-64 animate-pulse" />
                     <div className="h-8 bg-gray-300 rounded w-32 animate-pulse mt-3 sm:mt-0" />
                 </div>
-
                 <div className="relative w-full h-72 overflow-hidden rounded-lg bg-gray-300">
                     <div className="absolute inset-0 animate-pulse bg-linear-to-r from-gray-300 via-gray-200 to-gray-300" />
                 </div>
@@ -56,7 +57,6 @@ export default function MeasurementsChart({ loading: externalLoading = false }) 
         );
     }
 
-    // === Erros e casos sem dados ===
     if (error) return <p className="text-red-500">Erro ao carregar medições: {error}</p>;
     if (!measurements || measurements.length === 0)
         return <p className="text-gray-500">Nenhuma medição encontrada.</p>;
@@ -71,25 +71,46 @@ export default function MeasurementsChart({ loading: externalLoading = false }) 
         value: m[selectedType],
     })).reverse();
 
-    // === Gráfico real ===
     return (
         <div className="flex flex-col bg-gray-200 p-5 rounded-xl shadow-md">
-            <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
+            <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
                 <h2 className="text-md font-semibold text-gray-700 mb-2 sm:mb-0">
                     {labels[selectedType]} ao longo do tempo
                 </h2>
 
-                <select
-                    className="bg-white border border-gray-300 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    value={selectedType}
-                    onChange={(e) => setSelectedType(e.target.value)}
-                >
-                    <option value="voltage">Tensão</option>
-                    <option value="current">Corrente</option>
-                    <option value="power">Potência</option>
-                    <option value="energy">Energia</option>
-                    <option value="cost">Custo</option>
-                </select>
+                <div className="flex gap-2">
+                    <select
+                        className="bg-white border border-gray-300 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        value={selectedType}
+                        onChange={(e) => setSelectedType(e.target.value)}
+                    >
+                        <option value="voltage">Tensão</option>
+                        <option value="current">Corrente</option>
+                        <option value="power">Potência</option>
+                        <option value="energy">Energia</option>
+                        <option value="cost">Custo</option>
+                    </select>
+
+                    <select
+                        className="bg-white border border-gray-300 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        value={period}
+                        onChange={(e) => setPeriod(e.target.value)}
+                    >
+                        <option value="all">Todo período</option>
+                        <option value="today">Hoje</option>
+                        <option value="week">Última semana</option>
+                        <option value="month">Último mês</option>
+                    </select>
+
+                    <input
+                        type="number"
+                        min={1}
+                        placeholder="Limite"
+                        className="bg-white border border-gray-300 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 w-24"
+                        value={limit || ""}
+                        onChange={(e) => setLimit(e.target.value ? Number(e.target.value) : null)}
+                    />
+                </div>
             </div>
 
             <div className="w-full h-72">
@@ -107,9 +128,7 @@ export default function MeasurementsChart({ loading: externalLoading = false }) 
                             }}
                         />
                         <Tooltip
-                            formatter={(value) =>
-                                `${value.toFixed(3)} ${units[selectedType]}`
-                            }
+                            formatter={(value) => `${value.toFixed(3)} ${units[selectedType]}`}
                             labelStyle={{ color: "#374151" }}
                             contentStyle={{
                                 backgroundColor: "#f9fafb",
