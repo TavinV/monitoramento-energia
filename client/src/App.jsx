@@ -1,6 +1,7 @@
 import Header from "./components/Header.jsx";
 import LatestMeasurement from "./components/sections/LatestMeasurement.jsx";
 import MeasurementsChart from "./components/sections/MeasurementsChart.jsx";
+import Footer from "./components/Footer.jsx";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <LatestMeasurement />
       <MeasurementsChart />
     </main>
+    <Footer />
     </>
   )
 }

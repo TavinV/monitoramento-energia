@@ -34,11 +34,29 @@ const labels = {
     cost: "Custo",
 };
 
-export default function MeasurementsChart() {
-    const { measurements, loading, error } = useMeasurements(false);
+export default function MeasurementsChart({ loading: externalLoading = false }) {
+    const { measurements, loading: internalLoading, error } = useMeasurements(false);
     const [selectedType, setSelectedType] = useState("power");
 
-    if (loading) return <p className="text-gray-500">Carregando gráfico...</p>;
+    const loading = externalLoading || internalLoading;
+
+    // === Skeleton de carregamento ===
+    if (loading) {
+        return (
+            <div className="flex flex-col bg-gray-200 p-5 rounded-xl shadow-md">
+                <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
+                    <div className="h-5 bg-gray-300 rounded w-64 animate-pulse" />
+                    <div className="h-8 bg-gray-300 rounded w-32 animate-pulse mt-3 sm:mt-0" />
+                </div>
+
+                <div className="relative w-full h-72 overflow-hidden rounded-lg bg-gray-300">
+                    <div className="absolute inset-0 animate-pulse bg-linear-to-r from-gray-300 via-gray-200 to-gray-300" />
+                </div>
+            </div>
+        );
+    }
+
+    // === Erros e casos sem dados ===
     if (error) return <p className="text-red-500">Erro ao carregar medições: {error}</p>;
     if (!measurements || measurements.length === 0)
         return <p className="text-gray-500">Nenhuma medição encontrada.</p>;
@@ -51,8 +69,9 @@ export default function MeasurementsChart() {
             month: "2-digit",
         }),
         value: m[selectedType],
-    }));
+    })).reverse();
 
+    // === Gráfico real ===
     return (
         <div className="flex flex-col bg-gray-200 p-5 rounded-xl shadow-md">
             <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
