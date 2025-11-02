@@ -35,16 +35,56 @@ const MeasurementsController = {
         }
     },
 
-    // Função para obter todas as medições
+   // Função para obter todas as medições com filtros opcionais
     async getAllMeasurements(req, res) {
         try {
-            const measurements = await Measurements.find().sort({ timestamp: -1 });
+            let { limit, period } = req.query;
+
+            // Converte limit para número se existir
+            limit = limit ? parseInt(limit) : null;
+
+            // Filtro base (sem restrições)
+            const filter = {};
+
+            // Aplica filtro de período, se informado
+            if (period) {
+                const now = new Date();
+                let startDate = null;
+
+                switch (period) {
+                    case "today":
+                        startDate = new Date(now.setHours(0, 0, 0, 0));
+                        break;
+                    case "week":
+                        startDate = new Date();
+                        startDate.setDate(now.getDate() - 7);
+                        break;
+                    case "month":
+                        startDate = new Date();
+                        startDate.setMonth(now.getMonth() - 1);
+                        break;
+                    default:
+                        startDate = null; // “all”
+                }
+
+                if (startDate) {
+                    filter.timestamp = { $gte: startDate };
+                }
+            }
+
+            // Consulta no banco
+            let query = Measurements.find(filter).sort({ timestamp: -1 });
+            if (limit) query = query.limit(limit);
+
+            const measurements = await query;
+
             return res.status(200).json(measurements);
         } catch (error) {
             console.error("Error fetching measurements:", error);
             return res.status(500).json({ error: "Internal server error" });
         }
     },
+
 
     // Função para obter a última medição
     async getLastMeasurement(req, res) {

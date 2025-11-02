@@ -21,19 +21,39 @@ const colors = {
     timestamp: "bg-gray-500"
 };
 
-function Card({ type, title, value, unit }) {
-    return (
-        <div className="bg-white rounded-lg p-6 shadow-md transition-transform transform hover:-translate-y-1 hover:shadow-xl w-full flex flex-col h-full">
-            <div className="flex justify-between items-center mb-4">
-                <h3 className="text-gray-600 uppercase font-medium text-sm">{title}</h3>
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white ${colors[type]}`}>
-                    {icons[type]}
+function Card({ type, title, value, unit, loading }) {
+    if (!loading) {
+        return (
+            <div className="bg-white rounded-lg p-6 shadow-md transition-transform transform hover:-translate-y-1 hover:shadow-xl w-full flex flex-col h-full">
+                <div className="flex justify-between items-center mb-4">
+                    <h3 className="text-gray-600 uppercase font-medium text-sm">{title}</h3>
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white ${colors[type]}`}>
+                        {icons[type]}
+                    </div>
                 </div>
+                {
+                    type === "timestamp" ? (
+                        <div className="text-xl font-semibold mb-1">{value}</div>
+                    ) : (
+                        <div className="text-2xl font-semibold mb-1">{value}</div>
+                    )
+                }
+                {unit && <div className="text-gray-500 text-sm">{unit}</div>}
             </div>
-            <div className="text-2xl font-semibold mb-1">{value}</div>
-            {unit && <div className="text-gray-500 text-sm">{unit}</div>}
-        </div>
-    );
+        );
+    } else {
+        return (
+            <div className="bg-white rounded-lg p-6 shadow-md transition-transform transform hover:-translate-y-1 hover:shadow-xl w-full flex flex-col h-full">
+                <div className="flex justify-between items-center mb-4">
+                    <div className="bg-gray-200 uppercase font-medium text-sm w-1/2 h-10 rounded animate-pulse"></div>
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white bg-gray-300`}>
+                    </div>
+                </div>
+                <div className="text-2xl font-semibold mb-1 w-1/3 h-6 bg-gray-400 animate-pulse"></div>
+                {unit && <div className="bg-gray-300 text-sm w-1/4 h-6 animate-pulse"></div>}
+            </div>
+        );
+    }
 };
 
 export default Card;

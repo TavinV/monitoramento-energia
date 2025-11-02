@@ -15,6 +15,11 @@ O objetivo do projeto é fornecer uma interface simples, responsiva e intuitiva 
 
 ---
 
+---
+
+🔗 Aplicação hospedada: https://monitoramento-energia.vercel.app/
+
+
 ## ⚙️ Detalhes Técnicos
 
 ### Arquitetura e Comunicação
@@ -37,7 +42,7 @@ Para evitar inserção de dados não autorizados:
 - O middleware `validateApiKey.js` verifica a validade do token antes de permitir o registro da medição.
 - Todas as requisições externas devem incluir o cabeçalho:
   ```
-  Authorization: Bearer <API_KEY>
+  x-api-key: <API_KEY>
   ```
 
 ---
@@ -94,7 +99,7 @@ npm run dev
 
 ### Base URL
 ```
-http://localhost:5000/api/measurements
+http://localhost:3000/api/measurements
 ```
 
 ---
@@ -105,7 +110,7 @@ Registra uma nova medição enviada pelo ESP32.
 **Headers:**
 ```
 Content-Type: application/json
-Authorization: Bearer <API_KEY>
+x-api-key: <API_KEY>
 ```
 
 **Body:**
