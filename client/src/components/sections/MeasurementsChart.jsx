@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useMeasurements } from "../../hooks/useMeasurements.jsx";
+import { exportMeasurementsAsCSV } from "../../hooks/useCsvExport.jsx";
+
 import {
     LineChart,
     Line,
@@ -78,7 +80,7 @@ export default function MeasurementsChart({ loading: externalLoading = false }) 
                     {labels[selectedType]} ao longo do tempo
                 </h2>
 
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-wrap justify-center">
                     <select
                         className="bg-white border border-gray-300 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                         value={selectedType}
@@ -101,7 +103,6 @@ export default function MeasurementsChart({ loading: externalLoading = false }) 
                         <option value="week">Última semana</option>
                         <option value="month">Último mês</option>
                     </select>
-
                     <input
                         type="number"
                         min={1}
@@ -110,6 +111,12 @@ export default function MeasurementsChart({ loading: externalLoading = false }) 
                         value={limit || ""}
                         onChange={(e) => setLimit(e.target.value ? Number(e.target.value) : null)}
                     />
+                    <button className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium px-3 py-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" 
+                    onClick={() =>{
+                        exportMeasurementsAsCSV();
+                    }}>
+                        Exportar CSV
+                    </button>
                 </div>
             </div>
 

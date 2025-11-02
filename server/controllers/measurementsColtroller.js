@@ -119,7 +119,7 @@ const MeasurementsController = {
             }
 
             // Define os campos do CSV
-            const fields = ["_id", "voltage", "current", "power", "createdAt"];
+            const fields = ["_id", "voltage", "current", "power", "createdAt", "duration", "energy", "cost", "timestamp"];
             const opts = { fields, delimiter: ";" }; // usa ponto e vírgula, ideal para Excel PT-BR
 
             // Converte JSON para CSV
