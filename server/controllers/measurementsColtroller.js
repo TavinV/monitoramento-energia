@@ -1,5 +1,6 @@
 import Measurements from "../models/Measurements.js";
 import { calculateMeasurement } from "../util/calculateData.js";
+import { Parser } from "json2csv";
 
 const MeasurementsController = {
 
@@ -65,6 +66,35 @@ const MeasurementsController = {
         } catch (error) {
             console.error("Error deleting measurement:", error);
             return res.status(500).json({ error: "Internal server error" });
+        }
+    },
+
+    async exportMeasurementsCSV(req, res) {
+        try {
+            // Busca todos os dados do banco
+            const measurements = await Measurements.find().sort({ createdAt: -1 });
+
+            if (!measurements.length) {
+                return res.status(404).json({ error: "Nenhuma medição encontrada." });
+            }
+
+            // Define os campos do CSV
+            const fields = ["_id", "voltage", "current", "power", "createdAt"];
+            const opts = { fields, delimiter: ";" }; // usa ponto e vírgula, ideal para Excel PT-BR
+
+            // Converte JSON para CSV
+            const parser = new Parser(opts);
+            const csv = parser.parse(measurements);
+
+            // Define cabeçalhos para download
+            res.header("Content-Type", "text/csv");
+            res.attachment(`medicoes_${new Date().toISOString().slice(0, 10)}.csv`);
+
+            // Envia o arquivo
+            return res.send(csv);
+        } catch (error) {
+            console.error("Erro ao gerar CSV:", error);
+            res.status(500).json({ error: "Erro interno ao gerar o arquivo CSV." });
         }
     }
 
