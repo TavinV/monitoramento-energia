@@ -47,7 +47,7 @@ export default function MeasurementsChart({ loading: externalLoading = false }) 
     // === Skeleton de carregamento ===
     if (loading) {
         return (
-            <div className="flex flex-col bg-gray-200 p-5 rounded-xl shadow-md">
+            <div className="flex flex-col bg-gray-200 p-5 rounded-xl shadow-md cursor-progress">
                 <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
                     <div className="h-5 bg-gray-300 rounded w-64 animate-pulse" />
                     <div className="h-8 bg-gray-300 rounded w-32 animate-pulse mt-3 sm:mt-0" />

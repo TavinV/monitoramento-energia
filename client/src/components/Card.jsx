@@ -43,7 +43,7 @@ function Card({ type, title, value, unit, loading }) {
         );
     } else {
         return (
-            <div className="bg-white rounded-lg p-6 shadow-md transition-transform transform hover:-translate-y-1 hover:shadow-xl w-full flex flex-col h-full">
+            <div className="bg-white rounded-lg p-6 shadow-md transition-transform transform hover:-translate-y-1 hover:shadow-xl w-full flex flex-col h-full cursor-progress">
                 <div className="flex justify-between items-center mb-4">
                     <div className="bg-gray-200 uppercase font-medium text-sm w-1/2 h-10 rounded animate-pulse"></div>
                     <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white bg-gray-300`}>
